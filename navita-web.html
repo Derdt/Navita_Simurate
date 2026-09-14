@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAVITA — Fresh Melons, Direct from Our Farm</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="brand-mark" onclick="go('home')">
+      <div class="crest-sm">N</div>
+      <div class="brand-text">NAVITA</div>
+    </div>
+    <ul class="nav-links" id="navLinks"></ul>
+    <div class="nav-right">
+      <button class="btn btn-outline btn-sm" onclick="openAuth()">Log In</button>
+      <div class="avatar" onclick="go('profile')">P</div>
+    </div>
+  </nav>
+
+  <!-- HOME -->
+  <section class="page active" id="page-home">
+    <div class="container">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">SINCE 1986</div>
+          <h1>From our farm to your table.</h1>
+          <p>Every melon has its own ID. Reserve one, pay a deposit or in full, and follow it from the vine to your door.</p>
+          <div class="hero-actions">
+            <button class="btn btn-purple" onclick="scrollToGrid()">Explore Melons</button>
+            <button class="btn btn-outline" onclick="go('myMelons')">Track a Reservation</button>
+          </div>
+        </div>
+        <div class="hero-visual"><div class="glow" id="heroSvg"></div></div>
+      </div>
+
+      <div class="section-title" id="gridAnchor"><h2>Featured Melons</h2><span onclick="go('myMelons')">See all reservations →</span></div>
+      <div class="melon-grid" id="homeGrid"></div>
+
+      <div class="why-row">
+        <div class="why-item"><div class="ic">🏷️</div><h3>Every Melon, Tagged</h3><p>Each melon gets a unique ID the moment it's reserved, so you always know exactly which one is yours.</p></div>
+        <div class="why-item"><div class="ic">💳</div><h3>Deposit or Full Pay</h3><p>Pay a small deposit now and the rest on harvest day, or pay in full upfront — your choice.</p></div>
+        <div class="why-item"><div class="ic">🚚</div><h3>Harvest to Doorstep</h3><p>Once ready, your melon is picked, packed, and delivered straight from the field.</p></div>
+      </div>
+
+      <div class="why-row" style="grid-template-columns:1fr 1fr; margin-bottom:60px;">
+        <div class="why-item" style="cursor:pointer;" onclick="go('learn')">
+          <div class="ic">📖</div><h3>While You Wait: The Farm Journal</h3>
+          <p>Curious how your melon grows? Read about our farming, watering, and how sweetness develops in the field.</p>
+        </div>
+        <div class="why-item" style="cursor:pointer;" onclick="go('visit')">
+          <div class="ic">🚜</div><h3>Visit the Farm at Harvest Time</h3>
+          <p>Come pick your own reserved melon, snap some photos, and taste the harvest fresh off the vine.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARN / FARM JOURNAL -->
+  <section class="page" id="page-learn">
+    <div class="container">
+      <div class="section-title"><h2>Farm Journal</h2></div>
+      <p class="learn-intro">While your melon ripens on the vine, take a few minutes to learn how it gets from seed to sweetness. Tap any card to read more.</p>
+      <div class="learn-grid" id="learnGrid"></div>
+    </div>
+  </section>
+
+  <!-- FARM VISIT BOOKING -->
+  <section class="page" id="page-visit">
+    <div class="container">
+      <div class="section-title"><h2>Book a Farm Visit</h2></div>
+      <div class="visit-wrap" id="visitWrap"></div>
+    </div>
+  </section>
+
+  <!-- DETAIL -->
+  <section class="page" id="page-detail">
+    <div class="container">
+      <div class="back-link" onclick="go('home')">← Back to melons</div>
+      <div class="detail-wrap">
+        <div class="detail-visual" id="detailVisual"></div>
+        <div class="detail-info" id="detailInfo"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATION FLOW -->
+  <section class="page" id="page-reservation">
+    <div class="container">
+      <div class="back-link" id="resBack">← Back</div>
+      <div class="steps">
+        <div class="step done" id="stepSelect"><div class="circ">1</div>Select</div>
+        <div class="step-line"></div>
+        <div class="step active" id="stepDeposit"><div class="circ">2</div>Deposit</div>
+        <div class="step-line"></div>
+        <div class="step" id="stepGrow"><div class="circ">3</div>Grow</div>
+        <div class="step-line"></div>
+        <div class="step" id="stepHarvest"><div class="circ">4</div>Harvest</div>
+      </div>
+
+      <div class="res-layout">
+        <div>
+          <h2 style="font-size:18px; margin-bottom:14px;">Selected Melon</h2>
+          <div class="selected-card">
+            <div class="selected-thumb" id="resThumb"></div>
+            <div>
+              <div class="unit-id" id="resUnitId">ID: —</div>
+              <div class="sname" id="resName">—</div>
+              <div class="sprice" id="resPrice">—</div>
+            </div>
+          </div>
+
+          <h2 style="font-size:18px; margin-bottom:14px;">Reservation Option</h2>
+          <div id="optDeposit" class="option-card selected" onclick="selectPayment('deposit')">
+            <input type="radio" name="payopt" checked>
+            <div>
+              <div class="otitle">Deposit (฿50)</div>
+              <div class="osub">Pay a small deposit now, rest on harvest day.</div>
+            </div>
+          </div>
+          <div id="optFull" class="option-card" onclick="selectPayment('full')">
+            <input type="radio" name="payopt">
+            <div>
+              <div class="otitle" id="fullTitle">Full Payment</div>
+              <div class="osub">Pay the full amount now.</div>
+            </div>
+          </div>
+
+          <div class="total-row">
+            <div class="label" id="totalLabel">Total (Deposit)</div>
+            <div class="amount" id="totalAmount">฿50</div>
+          </div>
+          <button class="btn btn-purple btn-block" onclick="confirmReservation()">Next</button>
+        </div>
+        <div>
+          <div class="why-item">
+            <div class="ic">🏷️</div>
+            <h3>Why unique IDs?</h3>
+            <p>The moment you reserve, this exact melon is taken off the vine's availability count and tagged just for you — you'll see the same ID again in My Melons and on your delivery.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY MELONS -->
+  <section class="page" id="page-myMelons">
+    <div class="container">
+      <div class="section-title"><h2>My Melons</h2></div>
+      <div class="res-grid" id="resGrid"></div>
+    </div>
+  </section>
+
+  <!-- REWARDS -->
+  <section class="page" id="page-rewards">
+    <div class="container">
+      <div class="rewards-wrap">
+        <div class="section-title"><h2>My Rewards</h2></div>
+        <div class="points-card">
+          <div><div style="font-size:12.5px; color:rgba(255,255,255,.7);">Your Points</div><div class="num" id="pointsNum">250</div></div>
+          <button class="btn btn-gold" onclick="showToast('Redeemed! New offers coming soon.')">Redeem</button>
+        </div>
+        <div class="section-title"><h2 style="font-size:17px;">Badges</h2></div>
+        <div class="badges" id="badgesGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="page" id="page-profile">
+    <div class="container">
+      <div class="profile-wrap">
+        <div class="profile-head">
+          <div class="avatar">P</div>
+          <div><div class="pname">Ploy S.</div><div class="pmail">ploy@example.com</div></div>
+        </div>
+        <div class="menu-item">Purchase History <span></span></div>
+        <div class="menu-item">Addresses <span></span></div>
+        <div class="menu-item">Payment Methods <span></span></div>
+        <div class="menu-item">Notifications <span></span></div>
+        <div class="menu-item">Help & Support <span></span></div>
+        <div class="menu-item" style="color:#B0413E;" onclick="openAuth()">Log Out</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="tabbar" id="tabbar"></div>
+
+  <div class="overlay" id="authOverlay">
+    <div class="auth-modal">
+      <button class="close-x" onclick="closeAuth()">✕</button>
+      <div class="crest">N</div>
+      <h2>Welcome back</h2>
+      <div class="sub">Log in to reserve this season's melons</div>
+      <div class="field"><input type="text" placeholder="Email or phone number"></div>
+      <div class="field"><input type="password" placeholder="Password"></div>
+      <button class="btn btn-purple btn-block" onclick="closeAuth()">Log In</button>
+    </div>
+  </div>
+
+  <div class="overlay" id="gameOverlay">
+    <div class="game-modal">
+      <button class="close-x" onclick="closeGame()">✕</button>
+      <div class="ic-hero">🎯</div>
+      <h2>Guess the Harvest!</h2>
+      <div class="sub" id="gameSub">Take a guess on <b>—</b> and win rewards if you're right.</div>
+      <div class="game-field">
+        <label>Harvest Date</label>
+        <input type="date" id="guessDate">
+      </div>
+      <div class="game-field">
+        <label>Final Weight (kg)</label>
+        <input type="number" id="guessWeight" step="0.1" placeholder="e.g. 2.5">
+      </div>
+      <div class="game-field">
+        <label>Sweetness Level (Brix)</label>
+        <input type="number" id="guessBrix" step="0.1" placeholder="e.g. 14">
+      </div>
+      <button class="btn btn-purple btn-block" onclick="submitGuess()">Submit Guess</button>
+      <div class="game-reward-note">Get points for playing — guess all three right for a free delivery + discount coupon. 🎁</div>
+    </div>
+  </div>
+
+
+  <!-- ARTICLE MODAL -->
+  <div class="overlay" id="articleOverlay">
+    <div class="article-modal">
+      <button class="close-x" onclick="closeArticle()">✕</button>
+      <div class="ic-hero" id="articleIcon">📖</div>
+      <h2 id="articleTitle">—</h2>
+      <div id="articleBody"></div>
+    </div>
+  </div>
+
+  <!-- CHAT WIDGET -->
+  <button class="chat-fab" onclick="openChat()" title="Ask us anything">💬</button>
+  <div class="overlay" id="chatOverlay">
+    <div class="chat-modal">
+      <button class="close-x" onclick="closeChat()" style="color:#fff;">✕</button>
+      <div class="chat-head">
+        <div class="ic">🧑‍🌾</div>
+        <div><div class="t1">Ask the Farm</div><div class="t2">We usually reply within a few hours</div></div>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-suggestions" id="chatSuggestions"></div>
+      <div class="chat-input-row">
+        <input type="text" id="chatInput" placeholder="Type your question…" onkeydown="if(event.key==='Enter') sendChatMessage()">
+        <button onclick="sendChatMessage()">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</body>
+<script src="script.js"></script>
+</html>
